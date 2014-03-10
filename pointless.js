@@ -1,7 +1,7 @@
 var testData = "{";
-    testData = '"template" : {';
+    testData += '"template" : {';
     testData += '"html" : "<div class=\'slide\'>text<img src=\'image\' /></div>",';
-    testData += '"css" : ".slide \{ background:black; color:white;\}",';
+    testData += '"css" : ".slide \{ background:black; color:white;\}"';
     testData += "},";
     testData += '"slides" : [';
     testData += "{"
@@ -9,7 +9,7 @@ var testData = "{";
     testData += '"image" : "test image"';
     testData += "},";
     testData += "{"
-    testData += '"text" : "test text",';
+    testData += '"text" : "test text2",';
     testData += '"image" : "test image"';
     testData += "}";
     testData += "]";
@@ -17,40 +17,26 @@ var testData = "{";
 
 
 
-// STARTUP
-
-window.onload = function () {
-
-    //TODO : fetch
-    presentation.load();
-
-    //TODO : listen for show/hide UI
-    listenKeyboard(undefined, pagination.next,
-                   undefined, pagination.previous);
-
-    listenContentChange(presentation.updateContent);
-    listenTemplateChange(presentation.updateTemplate);
-}
 
 // USER INTERACTIONS
 
 function listenKeyboard(onUp, onRight, onDown, onLeft) {
     document.addEventListener("keyup", function(e){
         switch(e.keyCode) {
-            case '37':
+            case 37:
                 onLeft();
                 break;
 
-            case '38':
+            case 38:
                 onUp();
                 //up
                 break;
 
-            case '39':
+            case 39:
                 onRight();
                 break;
 
-            case '40':
+            case 40:
                 onDown();
                 //down
                 break;
@@ -58,7 +44,7 @@ function listenKeyboard(onUp, onRight, onDown, onLeft) {
     });
 }
 
-function listenContentChange(updateContent) {
+function listenSlideChange(updateContent) {
     var text  = document.querySelector(".content textarea"),
         image = document.querySelector(".content [type=url]");
 
@@ -84,80 +70,34 @@ function listenTemplateChange(updateTemplate) {
     });
 }
 
-
-// PRESENTATION
-
-var presentation = (function(onContentChange, onTemplateChange, getIndex) {
-
-    var data = {},
-
-        updateSlide = function (getIndex, slide) {
-            data.slides[getIndex()] = slide;
-            onContentChange(data[getIndex()], data.template);
-        },
-
-        updateTemplate = function(template) {
-            data.template = template;
-            onTemplateChange(date[getIndex()], data.template);
-        },
-
-        load = function(id) {
-            //TODO : fetch with id
-            data = testData;
-            onContentChange(data[getIndex()], data.template);
-            onTemplateChange(date[getIndex()], data.template);
-        };
-
-    return {
-        updateContent : updateContent.bind(getIndex),
-        updateTemplate : updateTemplate,
-        load : load
-    }
-
-}());
-
-
-
 // SLIDES
 
-function createSlide() {
-    return {
-        text : "",
-        image : ""
-    }
-}
 
-function changeSlide(presentation, index) {
+function changeSlide(presentation) {
 
-    var slide = presentation.getSlide(index);
+    var slide = presentation.getSlide();
 
+    refresh(slide, presentation.template);
     //TODO : update max/current slide UI
-
-    updateForms(presentation, index);
-    renderSlide(presentation.content[index], presentation.html);
 }
 
 // PAGINATION
 
-var pagination = (function (onChange) {
+function Pagination(onChange) {
 
     var index = 0,
 
         next = function() {
-
-            var previousIndex = index;
             index++;
-            return onChange(index, previousIndex);
+            onChange();
         },
 
         previous = function() {
             if (index === 0)
                 return;
 
-            var previousIndex = index;
-
             index--;
-            return onChange(index, previousIndex);
+            onChange();
         },
 
         getIndex = function() {
@@ -169,16 +109,78 @@ var pagination = (function (onChange) {
         previous : previous,
         getIndex : getIndex
     }
+}
 
-}(changeSlide.bind(presentation)));
+// PRESENTATION
+
+var presentation = (function(onChange) {
+
+    var data = {},
+
+        refresh = function() {
+            onChange(data.slides[getIndex()], data.template);
+        },
+
+        pagination = Pagination(refresh),
+
+        getIndex = pagination.getIndex,
+
+        updateSlide = function (slide) {
+            data.slides[getIndex()] = slide;
+            onChange(data.slides[getIndex()], data.template);
+        },
+
+        updateTemplate = function(template) {
+            data.template = template;
+            onChange(data.slides[getIndex()], data.template);
+        },
+
+         createSlide = function() {
+            return {
+                text : "",
+                image : ""
+            }
+        },
+
+        getSlide = function() {
+            if (!data.slides[getIndex()])
+                data.slides[getIndex()] = createSlide();
+
+            return data.slides[getIndex()];
+        },
+
+
+        load = function(id) {
+            //TODO : fetch with id
+            data = JSON.parse(testData);
+            onChange(data.slides[getIndex()], data.template);
+        };
+
+    return {
+        refresh : refresh,
+        updateSlide : updateSlide.bind(getIndex),
+        updateTemplate : updateTemplate,
+        load : load,
+        getSlide : getSlide,
+        next : pagination.next,
+        previous : pagination.previous
+    }
+
+}(refresh));
 
 // UI
 
-function renderSlide(slide, template) {
+function refresh(slide, template) {
+    updateStyle(template.css);
+    renderSlide(slide, template.html);
+    updateForms(slide, template);
+}
+
+function renderSlide(slide, html) {
     var div = document.createElement("div");
 
-    div.innerHTML = template.replace("text", slide.text)
-                            .replace("image", slide.image);
+    div.innerHTML = html.replace("text", slide.text)
+                                 .replace("image", slide.image);
 
     document.querySelector(".slide").innerHTML = "";
     document.querySelector(".slide").appendChild(div);
@@ -194,9 +196,24 @@ function updateStyle(css) {
     style.textContent = css;
 }
 
-function updateForms(presentation, getIndex) {
-    document.querySelector(".content textarea").value = presentation.slides[getIndex()].text;
-    document.querySelector(".content [type=url]").value = presentation.slides[getIndex()].image;
-    document.querySelector(".template .html").value = presentation.html;
-    document.querySelector(".template .css").value = presentation.css;
+function updateForms(slide, template) {
+    document.querySelector(".content textarea").value = slide.text;
+    document.querySelector(".content [type=url]").value = slide.image;
+    document.querySelector(".template .html").value = template.html;
+    document.querySelector(".template .css").value = template.css;
+}
+
+// STARTUP
+
+window.onload = function () {
+
+    //TODO : fetch
+    presentation.load();
+
+    //TODO : listen for show/hide UI
+    listenKeyboard(undefined, presentation.next,
+                   undefined, presentation.previous);
+
+    listenSlideChange(presentation.updateSlide);
+    listenTemplateChange(presentation.updateTemplate);
 }
