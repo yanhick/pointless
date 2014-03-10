@@ -37,3 +37,12 @@ Example Json :
         image : "img url"
     }]
 }
+
+
+
+- when user changes slide with left/right arrow
+    - clean slides to remove empty ones
+    - if new index < 0, do nothing
+    - if new index == nbSlides, add new slide
+    - if new index > nbSlides, new index == nbSlides 
+    - refresh UI
