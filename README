@@ -1,0 +1,39 @@
+Pointless
+slides for presenters who don't need them
+
+Description
+- user can create as many slides as he wants
+- user can create as many presentation as he wants (just come back to site with no ID)
+- for each slide, user can define a text content and a picture
+- for each presentation, the user can edit the slides html and css templates (only one for each presentation for now)
+- user can switch between slides with left and right arrow/swipe
+- user can make the content UI show/hide with up arrow/swipe
+- user can make the template UI show/hide with down arrow/swipe
+- a UI shows current slide and total slides
+- empty slides are removed 
+
+Tech description
+- mainly client-side code, back-end just used as DB and ID generator
+- user enters the site either with empty url, in which case an ID is generated for him and he is 
+redirected to this URL.
+- client-code starts by calling a back-end endpoint returning the currently saved document for the presentation
+- once fetched
+    - JSON doc parsed and rendered
+    - JSON contain a css style sheet. It is added as a style node with a data-attribute so that it can be updated
+    when the user edits the styles of the stylesheet
+    - JSON contains an html template. For each content item, render it by replacing a few attribute
+
+Example Json :
+
+{
+    html : "<div class="slide"></div>",
+    css : "ul {}",
+    content : [{
+        text : "Lorem Ipsum",
+        image : "img url"
+    },
+    {
+        text : "Lorem Ipsum",
+        image : "img url"
+    }]
+}
