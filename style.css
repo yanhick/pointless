@@ -1,0 +1,11 @@
+.content {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.template {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}

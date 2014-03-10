@@ -70,17 +70,6 @@ function listenTemplateChange(updateTemplate) {
     });
 }
 
-// SLIDES
-
-
-function changeSlide(presentation) {
-
-    var slide = presentation.getSlide();
-
-    refresh(slide, presentation.template);
-    //TODO : update max/current slide UI
-}
-
 // PAGINATION
 
 function Pagination(onChange) {
@@ -118,6 +107,9 @@ var presentation = (function(onChange) {
     var data = {},
 
         refresh = function() {
+            if (!data.slides[getIndex()])
+                data.slides[getIndex()] = createSlide();
+
             onChange(data.slides[getIndex()], data.template);
         },
 
@@ -135,20 +127,12 @@ var presentation = (function(onChange) {
             onChange(data.slides[getIndex()], data.template);
         },
 
-         createSlide = function() {
+        createSlide = function() {
             return {
                 text : "",
                 image : ""
             }
         },
-
-        getSlide = function() {
-            if (!data.slides[getIndex()])
-                data.slides[getIndex()] = createSlide();
-
-            return data.slides[getIndex()];
-        },
-
 
         load = function(id) {
             //TODO : fetch with id
@@ -158,10 +142,9 @@ var presentation = (function(onChange) {
 
     return {
         refresh : refresh,
-        updateSlide : updateSlide.bind(getIndex),
+        updateSlide : updateSlide,
         updateTemplate : updateTemplate,
         load : load,
-        getSlide : getSlide,
         next : pagination.next,
         previous : pagination.previous
     }
@@ -182,8 +165,8 @@ function renderSlide(slide, html) {
     div.innerHTML = html.replace("text", slide.text)
                                  .replace("image", slide.image);
 
-    document.querySelector(".slide").innerHTML = "";
-    document.querySelector(".slide").appendChild(div);
+    document.querySelector(".slide-container").innerHTML = "";
+    document.querySelector(".slide-container").appendChild(div);
 }
 
 function updateStyle(css) {
@@ -203,6 +186,11 @@ function updateForms(slide, template) {
     document.querySelector(".template .css").value = template.css;
 }
 
+function toggleForm(selector) {
+    var form = document.querySelector(selector);
+    form.style.visibility === "hidden" ? form.style.visibility = "" : form.style.visibility = "hidden";
+}
+
 // STARTUP
 
 window.onload = function () {
@@ -211,8 +199,8 @@ window.onload = function () {
     presentation.load();
 
     //TODO : listen for show/hide UI
-    listenKeyboard(undefined, presentation.next,
-                   undefined, presentation.previous);
+    listenKeyboard(toggleForm.bind(null, ".content"), presentation.next,
+                   toggleForm.bind(null, ".template"), presentation.previous);
 
     listenSlideChange(presentation.updateSlide);
     listenTemplateChange(presentation.updateTemplate);
