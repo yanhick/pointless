@@ -1,0 +1,14 @@
+{
+    "template" : {
+        "html" : "<div class=\"slide\"><div class=\"text-container\">{{text}}<div class=\"image-container\"><img src=\"{{image}}\" /></div></div></div>",
+        "css" : ".slide { background:black; color:white;}"
+    },
+    "slides" : [{
+            "text" : "test text",
+            "image" : "test image"
+        },{
+            "text" : "test text2",
+            "image" : "test image"
+        }
+    ]
+}

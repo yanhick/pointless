@@ -1,22 +1,4 @@
-var testData = "{";
-    testData += '"template" : {';
-    testData += '"html" : "<div class=\'slide\'><div class=\'text-container\'>{{text}}<div class=\'image-container\'><img src=\'{{image}}\' /></div></div></div>",';
-    testData += '"css" : ".slide \{ background:black; color:white;\}"';
-    testData += "},";
-    testData += '"slides" : [';
-    testData += "{"
-    testData += '"text" : "test text",';
-    testData += '"image" : "test image"';
-    testData += "},";
-    testData += "{"
-    testData += '"text" : "test text2",';
-    testData += '"image" : "test image"';
-    testData += "}";
-    testData += "]";
-    testData += "}";
-
-
-
+var Presentation = require("./presentation.js");
 
 // USER INTERACTIONS
 
@@ -72,84 +54,10 @@ function listenTemplateChange(updateTemplate) {
 
 // PAGINATION
 
-function Pagination(onChange) {
-
-    var index = 0,
-
-        next = function() {
-            index++;
-            onChange();
-        },
-
-        previous = function() {
-            if (index === 0)
-                return;
-
-            index--;
-            onChange();
-        },
-
-        getIndex = function() {
-            return index;
-        };
-
-    return {
-        next : next,
-        previous : previous,
-        getIndex : getIndex
-    }
-}
 
 // PRESENTATION
 
-var presentation = (function(onChange) {
-
-    var data = {},
-
-        refresh = function() {
-            if (!data.slides[getIndex()])
-                data.slides[getIndex()] = createSlide();
-
-            onChange(data.slides[getIndex()], data.template);
-        },
-
-        pagination = Pagination(refresh),
-
-        getIndex = pagination.getIndex,
-
-        updateSlide = function (slide) {
-            data.slides[getIndex()] = slide;
-            onChange(data.slides[getIndex()], data.template);
-        },
-
-        updateTemplate = function(template) {
-            data.template = template;
-            onChange(data.slides[getIndex()], data.template);
-        },
-
-        createSlide = function() {
-            return {
-                text : "",
-                image : ""
-            }
-        },
-
-        load = function(id) {
-            //TODO : fetch with id
-            data = JSON.parse(testData);
-            onChange(data.slides[getIndex()], data.template);
-        };
-
-    return {
-        refresh : refresh,
-        updateSlide : updateSlide,
-        updateTemplate : updateTemplate,
-        load : load,
-        next : pagination.next,
-        previous : pagination.previous
-    }
-
-}(refresh));
+var presentation = Presentation(refresh);
 
 // UI
 
@@ -195,12 +103,13 @@ function toggleForm(selector) {
 
 window.onload = function () {
 
-    //TODO : fetch
-    presentation.load();
 
     listenKeyboard(toggleForm.bind(null, ".content"), presentation.next,
                    toggleForm.bind(null, ".template"), presentation.previous);
 
     listenSlideChange(presentation.updateSlide);
     listenTemplateChange(presentation.updateTemplate);
+
+    //TODO : fetch using load/save module and instantiate new prez when ready
+    presentation.load();
 }
