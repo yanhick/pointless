@@ -46,3 +46,19 @@ Example Json :
     - if new index == nbSlides, add new slide
     - if new index > nbSlides, new index == nbSlides 
     - refresh UI
+
+
+FEATURES
+- add arbitrary variable for template (use mustache syntax ?)
+- add codeMirror for html and css
+- fetch JSON from server
+- save to server
+- delete slides
+- swap slides
+- copy slides
+- go-to slide
+- slide index
+- slide number
+- default template (tutorial)
+- save presentations in mongodb
+- fullscreen
