@@ -2,6 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <script src="lib/codemirror.js"></script>
+        <script src="mode/xml/xml.js"></script>
+        <script src="mode/javascript/javascript.js"></script>
+        <script src="mode/css/css.js"></script>
+        <script src="mode/htmlmixed/htmlmixed.js"></script>
+        <link href="lib/codemirror.css" type="text/css" rel="stylesheet">
         <link href="style.css" type="text/css" rel="stylesheet">
         <link href="slide.css" type="text/css" rel="stylesheet">
     </head>
@@ -14,10 +20,9 @@
         <button>save</button>
         <button>go-to</button>
         <form class="template">
-            <textarea class="html"></textarea>
-            <textarea class="css"></textarea>
+            <div class="html"></div>
+            <div class="css"></div>
         </form>
-        <script src="codemirror-compressed.js"></script>
         <script src="pointless.js"></script>
     </body>
 </html>

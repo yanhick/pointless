@@ -5,6 +5,7 @@ function refresh(slide, template) {
     updateForms(slide, template);
 }
 
+
 function renderSlide(slide, html, fields) {
     var div = document.createElement("div");
 

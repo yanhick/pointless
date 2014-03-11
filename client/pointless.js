@@ -1,5 +1,6 @@
 var Presentation = require("./presentation.js"),
     userInteraction = require("./user-interactions.js"),
+    codeMirrorWrapper = require("./code-mirror-wrapper.js"),
     api = require("./api.js"),
     ui = require("./ui.js");
 
@@ -12,7 +13,10 @@ function main() {
                        ui.toggleForm.bind(null, ".template"), presentation.previous);
 
         userInteraction.listenSlideChange(presentation.updateSlide);
-        userInteraction.listenTemplateChange(presentation.updateTemplate);
+        //userInteraction.listenTemplateChange(presentation.updateTemplate);
+
+        var test = JSON.parse(presentationData);
+        codeMirrorWrapper.init(presentation.updateTemplate, test.template.html, test.template.css);
 
         presentation.fromJSON(presentationData);
     });
