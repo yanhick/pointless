@@ -1,10 +1,8 @@
 var Pagination = require("./pagination.js");
 
-function Presentation(onChange) {
+function Presentation(data, onChange) {
 
-    var data = {},
-
-        refresh = function() {
+    var refresh = function() {
             if (!data.slides[getIndex()])
                 data.slides[getIndex()] = createSlide();
 
@@ -25,31 +23,25 @@ function Presentation(onChange) {
             onChange(data.slides[getIndex()], data.template);
         },
 
+        getData = function() {
+            return data;
+        },
+
         createSlide = function() {
             return {
                 text : "",
                 image : ""
             }
-        },
-
-        load = function(id) {
-            var req = new XMLHttpRequest();
-            req.open("GET","test.json", true);
-            req.onload = function(presentationData) {
-                data = JSON.parse(req.responseText);
-                onChange(data.slides[getIndex()], data.template);
-            }
-            req.send(null);
         };
 
     return {
         refresh : refresh,
         updateSlide : updateSlide,
         updateTemplate : updateTemplate,
-        load : load,
+        getData : getData,
         next : pagination.next,
         previous : pagination.previous
     }
 }
 
-module.exports = Presentation
+module.exports = Presentation;
