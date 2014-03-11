@@ -1,3 +1,2 @@
-
 default:
-	browserify client/pointless.js > bin/pointless.js
+	browserify -d client/pointless.js > bin/pointless.js

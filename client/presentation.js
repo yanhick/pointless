@@ -1,8 +1,10 @@
 var Pagination = require("./pagination.js");
 
-function Presentation(data, onChange) {
+function Presentation(onChange) {
 
-    var refresh = function() {
+    var data = {},
+
+        refresh = function() {
             if (!data.slides[getIndex()])
                 data.slides[getIndex()] = createSlide();
 
@@ -15,16 +17,22 @@ function Presentation(data, onChange) {
 
         updateSlide = function (slide) {
             data.slides[getIndex()] = slide;
-            onChange(data.slides[getIndex()], data.template);
+            refresh();
         },
 
-        updateTemplate = function(template) {
-            data.template = template;
-            onChange(data.slides[getIndex()], data.template);
+        updateTemplate = function(html, css) {
+            data.template.html = html;
+            data.template.css= css;
+            refresh();
         },
 
-        getData = function() {
-            return data;
+        fromJSON = function(json) {
+            data = JSON.parse(json);
+            refresh();
+        },
+
+        toJSON = function() {
+            return JSON.stringify(data);
         },
 
         createSlide = function() {
@@ -38,7 +46,8 @@ function Presentation(data, onChange) {
         refresh : refresh,
         updateSlide : updateSlide,
         updateTemplate : updateTemplate,
-        getData : getData,
+        toJSON : toJSON,
+        fromJSON : fromJSON,
         next : pagination.next,
         previous : pagination.previous
     }

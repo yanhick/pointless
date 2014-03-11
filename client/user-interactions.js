@@ -8,7 +8,6 @@ function listenKeyboard(onUp, onRight, onDown, onLeft) {
 
             case 38:
                 onUp();
-                //up
                 break;
 
             case 39:
@@ -17,22 +16,22 @@ function listenKeyboard(onUp, onRight, onDown, onLeft) {
 
             case 40:
                 onDown();
-                //down
                 break;
         }
     });
 }
 
-function listenSlideChange(updateContent) {
-    var text  = document.querySelector(".content textarea"),
-        image = document.querySelector(".content [type=url]");
-
+function listenSlideChange(updateSlide) {
     document.querySelector(".content")
             .addEventListener("input", function() {
-        updateContent({
-            text : text.value,
-            image : image.value
-        });
+
+        var inputs  = document.querySelectorAll(".content textarea, .content input"),
+            content = Array.prototype.reduce.call(inputs, function(content, input) {
+                content[input.name] = input.value;
+                return content;
+            }, {});
+
+        updateSlide(content);
     });
 }
 
@@ -42,10 +41,7 @@ function listenTemplateChange(updateTemplate) {
 
     document.querySelector(".template")
             .addEventListener("input", function() {
-        updateTemplate({
-            html : html.value,
-            css  : css.value
-        });
+        updateTemplate(html.value, css.value);
     });
 }
 

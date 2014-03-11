@@ -6,7 +6,7 @@ var Presentation = require("./presentation.js"),
 function main() {
     //TODO : retrieve ID from query string
     api.load(1234, function(err, presentationData) {
-        var presentation = Presentation(presentationData, ui.refresh);
+        var presentation = Presentation(ui.refresh);
 
         userInteraction.listenKeyboard(ui.toggleForm.bind(null, ".content"), presentation.next,
                        ui.toggleForm.bind(null, ".template"), presentation.previous);
@@ -14,7 +14,7 @@ function main() {
         userInteraction.listenSlideChange(presentation.updateSlide);
         userInteraction.listenTemplateChange(presentation.updateTemplate);
 
-        presentation.refresh();
+        presentation.fromJSON(presentationData);
     });
 }
 
