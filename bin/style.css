@@ -19,7 +19,7 @@
     background: gray;
 }
 
-.content textarea, .content [type=url] {
+.content textarea, .content input {
     display: block;
     width: 50%;
 }

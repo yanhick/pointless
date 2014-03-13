@@ -50,6 +50,7 @@ Example Json :
 
 FEATURES
 - add arbitrary variable for template (use mustache syntax ?)
+- add UI to add arbitrary variable ( use bootstrap table to add/remove items ?)
 - add codeMirror for html and css
 - fetch JSON from server
 - save to server

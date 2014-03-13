@@ -46,13 +46,21 @@ function buildContentForm(contentForm, fields) {
         return;
 
     contentForm.innerHTML = fields.reduce(function(html, field) {
+
+        html += "<div class=\"form-group\">";
+        html += "<label>" + field.name + "</label>";
         switch (field.type) {
             case "textarea":
-                return html + "<textarea name=\"" + field.name + "\"></textarea>";
+                html += "<textarea name=\"" + field.name + "\" class=\"form-control\"></textarea>";
+                break;
 
             default:
-                return html + "<input type=\"" + field.type + "\" name=\"" + field.name + "\" />";
+                html += "<input type=\"" + field.type + "\" class=\"form-control\" name=\"" + field.name + "\" />";
+                break;
         }
+        html += "</div>";
+
+        return html;
     }, "");
 }
 
