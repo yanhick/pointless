@@ -13,7 +13,8 @@ function main() {
                        ui.toggleForm.bind(null, ".template"), presentation.previous);
 
         userInteraction.listenSlideChange(presentation.updateSlide);
-        //userInteraction.listenTemplateChange(presentation.updateTemplate);
+
+        userInteraction.listenButtons(presentation.deleteSlide);
 
         var test = JSON.parse(presentationData);
         codeMirrorWrapper.init(presentation.updateTemplate, test.template.html, test.template.css);

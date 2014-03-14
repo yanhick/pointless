@@ -10,6 +10,13 @@
     background: gray;
 }
 
+.buttons {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
 .template {
     position: fixed;
     bottom: 0;

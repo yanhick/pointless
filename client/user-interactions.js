@@ -35,19 +35,14 @@ function listenSlideChange(updateSlide) {
     });
 }
 
-function listenTemplateChange(updateTemplate) {
-    var html = document.querySelector(".template .html"),
-        css  = document.querySelector(".template .css");
-
-    document.querySelector(".template")
-            .addEventListener("input", function() {
-        updateTemplate(html.value, css.value);
-    });
+function listenButtons(onDelete) {
+    document.querySelector(".buttons .delete")
+            .addEventListener("click", onDelete);
 }
 
 module.exports = {
     listenKeyboard : listenKeyboard,
     listenSlideChange : listenSlideChange,
-    listenTemplateChange : listenTemplateChange
+    listenButtons : listenButtons
 }
 

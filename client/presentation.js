@@ -20,6 +20,20 @@ function Presentation(onChange) {
             refresh();
         },
 
+        deleteSlide = function () {
+            if (data.slides.length === 1)
+                return;
+
+            data.slides.splice(getIndex(), 1);
+
+            if (data.slides.length === getIndex()) {
+                pagination.previous();
+                return;
+            }
+
+            refresh();
+        }
+
         updateTemplate = function(html, css) {
             data.template.html = html;
             data.template.css= css;
@@ -49,7 +63,8 @@ function Presentation(onChange) {
         toJSON : toJSON,
         fromJSON : fromJSON,
         next : pagination.next,
-        previous : pagination.previous
+        previous : pagination.previous,
+        deleteSlide : deleteSlide
     }
 }
 
