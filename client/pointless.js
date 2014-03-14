@@ -1,6 +1,7 @@
 var Presentation = require("./presentation.js"),
     userInteraction = require("./user-interactions.js"),
     codeMirrorWrapper = require("./code-mirror-wrapper.js"),
+    enterFullscreen = require("./fullscreen.js"),
     api = require("./api.js"),
     ui = require("./ui.js");
 
@@ -14,7 +15,8 @@ function main() {
 
         userInteraction.listenSlideChange(presentation.updateSlide);
 
-        userInteraction.listenButtons(presentation.deleteSlide);
+        userInteraction.listenButtons(presentation.deleteSlide,
+                                      enterFullscreen.bind(null, document.querySelector(".slide-container")));
 
         var test = JSON.parse(presentationData);
         codeMirrorWrapper.init(presentation.updateTemplate, test.template.html, test.template.css);

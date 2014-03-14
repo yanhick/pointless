@@ -35,9 +35,11 @@ function listenSlideChange(updateSlide) {
     });
 }
 
-function listenButtons(onDelete) {
+function listenButtons(onDelete, onFullscreen) {
     document.querySelector(".buttons .delete")
             .addEventListener("click", onDelete);
+    document.querySelector(".buttons .fullscreen")
+            .addEventListener("click", onFullscreen);
 }
 
 module.exports = {

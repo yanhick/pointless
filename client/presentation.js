@@ -8,7 +8,10 @@ function Presentation(onChange) {
             if (!data.slides[getIndex()])
                 data.slides[getIndex()] = createSlide();
 
-            onChange(data.slides[getIndex()], data.template);
+            onChange(data.slides[getIndex()],
+                     data.template,
+                     { total : data.slides.length, current : getIndex() + 1}
+                    );
         },
 
         pagination = Pagination(refresh),

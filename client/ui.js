@@ -1,8 +1,9 @@
 
-function refresh(slide, template) {
+function refresh(slide, template, progress) {
     updateStyle(template.css);
     renderSlide(slide, template.html, template.fields);
     updateForms(slide, template);
+    updateProgress(progress);
 }
 
 
@@ -33,6 +34,11 @@ function updateForms(slide, template) {
     document.querySelector(".content [type=url]").value = slide.image;
     document.querySelector(".template .html").value = template.html;
     document.querySelector(".template .css").value = template.css;
+}
+
+function updateProgress(progress) {
+    document.querySelector(".progress")
+            .innerHTML = progress.current + " / " + progress.total;
 }
 
 function toggleForm(selector) {
