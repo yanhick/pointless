@@ -1,12 +1,10 @@
 var Pagination = require("./pagination.js");
 
-function Presentation(onChange) {
+module.exports = function (onChange) {
 
     var data = {},
 
         refresh = function() {
-            if (!data.slides[getIndex()])
-                data.slides[getIndex()] = createSlide();
 
             onChange(data.slides[getIndex()],
                      data.template,
@@ -23,6 +21,20 @@ function Presentation(onChange) {
             refresh();
         },
 
+        insertSlide = function () {
+            data.slides.splice(getIndex(), 0, createSlide());
+            refresh();
+        },
+
+        swapSlide = function (getSwapIndex) {
+            var swappedSlide = data.slides[getIndex()],
+                targetSlide  = data.slides[getSwapIndex()];
+
+            data.slides[getIndex()] = targetSlide;
+            data.slides[getSwapIndex()] = swappedSlide;
+            refresh();
+        },
+
         deleteSlide = function () {
             if (data.slides.length === 1)
                 return;
@@ -35,12 +47,25 @@ function Presentation(onChange) {
             }
 
             refresh();
-        }
+        },
+
+        copySlide = function (getCopyIndex) {
+            data.slides.splice(
+               getIndex(), 1,
+               JSON.parse(JSON.stringify(data.slides[getCopyIndex()]))
+              );
+
+            refresh();
+        },
 
         updateTemplate = function(html, css) {
             data.template.html = html;
             data.template.css= css;
             refresh();
+        },
+
+        hasNext = function (index) {
+            return index < data.slides.length - 1;
         },
 
         fromJSON = function(json) {
@@ -65,10 +90,13 @@ function Presentation(onChange) {
         updateTemplate : updateTemplate,
         toJSON : toJSON,
         fromJSON : fromJSON,
-        next : pagination.next,
+        next : pagination.next.bind(null, hasNext),
         previous : pagination.previous,
-        deleteSlide : deleteSlide
+        goToSlide : pagination.goTo,
+        swapSlide : swapSlide,
+        copySlide : copySlide,
+        deleteSlide : deleteSlide,
+        insertSlide : insertSlide
     }
 }
 
-module.exports = Presentation;

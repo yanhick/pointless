@@ -1,19 +1,26 @@
-function Pagination(onChange) {
+module.exports = function (onChange) {
 
     var index = 0,
 
-        next = function() {
-            index++;
-            onChange();
+        next = function(hasNext) {
+            if (hasNext(index)) {
+                index++;
+                onChange();
+            }
         },
 
         previous = function() {
-            if (index === 0)
-                return;
+            if (index !== 0) {
+                index--;
+                onChange();
+            }
 
-            index--;
-            onChange();
         },
+
+        goTo = function(getGoToIndex) {
+            index = getGoToIndex();
+            onChange();
+        }
 
         getIndex = function() {
             return index;
@@ -22,8 +29,8 @@ function Pagination(onChange) {
     return {
         next : next,
         previous : previous,
+        goTo : goTo,
         getIndex : getIndex
     }
 }
 
-module.exports = Pagination;

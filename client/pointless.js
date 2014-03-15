@@ -15,7 +15,8 @@ function main() {
 
         userInteraction.listenSlideChange(presentation.updateSlide);
 
-        userInteraction.listenButtons(presentation.deleteSlide,
+        userInteraction.listenButtons(presentation.insertSlide, presentation.deleteSlide,
+                                      presentation.goToSlide, presentation.copySlide, presentation.swapSlide,
                                       enterFullscreen.bind(null, document.querySelector(".slide-container")));
 
         var test = JSON.parse(presentationData);
