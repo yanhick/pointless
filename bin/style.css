@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
 }
+
 .content {
     position: fixed;
     top: 0;
@@ -33,6 +34,13 @@
 
 .content textarea {
     height: 200px;
+}
+
+.progress {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    z-index: 2;
 }
 
 .html, .css {

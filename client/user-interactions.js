@@ -44,7 +44,8 @@ function listenButtons(onInsert, onDelete,
                     .addEventListener("click", cb);
         },
         getIndex = function () {
-            return document.querySelector(".buttons [type=number]").value;
+            var index = document.querySelector(".buttons [type=number]").value;
+            return parseInt(index) - 1;
         }
 
     listen(".buttons .insert", onInsert);
