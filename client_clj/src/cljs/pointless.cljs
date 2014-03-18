@@ -1,10 +1,14 @@
 (ns pointless.main 
-  (:require pointless.user-interaction))
-PrintS  
-(defn init 
-  []
-  (.write js/document "App loaded")
-  (pointless.user-interaction.on-key-up)
-  (pointless.user-interaction.listen-keyboard []))
+  (:require pointless.user-interaction
+            pointless.api))
 
-(set! (.-onload js/window) init)
+(defn init
+  [err data]
+  (pointless.user-interaction.listen-keyboard
+    #() #() #() #())
+  (pointless.user-interaction.listen-slide-change
+    #())
+  (pointless.user-interaction.listen-buttons
+    #() #() #() #() #() #()))
+
+(set! (.-onload js/window) (partial pointless.api.load 1234 init))
