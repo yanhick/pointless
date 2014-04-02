@@ -15,7 +15,7 @@
 
                 :compiler {
                            :output-to "../bin/pointless.js"
-                           :source-map "../bin/pointless.js.map"
+                           ;:source-map "../bin/pointless.js.map"
 
                            :optimizations :whitespace
 
