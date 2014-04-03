@@ -3,12 +3,12 @@
 (defn next-slide
   [get-index next?]
   (if (next? get-index)
-    (+ (get-index) 1)
+    (inc (get-index))
     (get-index)))
 
 (defn next?
   [get-index slides]
-  (< (get-index) (count slides)))
+  (< (get-index) (dec (count slides))))
 
 (defn previous-slide
   [get-index]

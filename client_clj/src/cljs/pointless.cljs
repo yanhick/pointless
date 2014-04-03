@@ -1,11 +1,11 @@
 (ns pointless
-  (:require [user_interaction :as user-interaction]
-            [fullscreen :as fs]
-            [ui :as ui]
-            [presentation :as presentation]
-            [code_mirror_wrapper :as cm]
-            [pagination :as pagination]
-            [api]))
+  (:require user_interaction
+            fullscreen
+            ui
+            presentation
+            code_mirror_wrapper
+            pagination
+            api))
 
 (def presentation-data (atom {}))
 (def index (atom 0))
@@ -18,7 +18,9 @@
 
 (defn update-index
   [new-index]
-  (swap! index (fn [] new-index)))
+  (js/console.log (str "index : " new-index))
+  (swap! index (fn [] new-index))
+  (ui.refresh @presentation-data (get-index)))
 
 (defn listen-user []
   (user_interaction.listen-keyboard
@@ -40,7 +42,7 @@
 (defn init
   [err data]
   (update-pres (js->clj (js/JSON.parse data)))
-  (cm.init
+  (code_mirror_wrapper.init
     presentation.update-template
     (get-presentation))
   (listen-user))

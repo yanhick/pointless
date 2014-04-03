@@ -2,7 +2,7 @@
 
 (defn- on-key-up
   [on-left on-right e]
-  (case e.keyCode
+  (case (.-keyCode e)
     37 (on-left)
     39 (on-right)
     nil))

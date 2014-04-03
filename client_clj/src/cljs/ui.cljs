@@ -1,12 +1,14 @@
-(ns ui)
+(ns ui
+  (:require 
+    [clojure.string]))
 
 (defn- render-template [slide template fields]
   (reduce
     (fn [template field]
       (clojure.string/replace
         template
-        (str "{{" field.name "}}")
-        (get slide field.name)))
+        (str "{{" (get field "name") "}}")
+        (get slide (get field "name"))))
     template
     fields))
 
