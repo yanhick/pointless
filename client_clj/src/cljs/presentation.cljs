@@ -1,4 +1,4 @@
-(ns pointless.presentation)
+(ns presentation)
 
 (defn refresh
   [get-index data on-change]

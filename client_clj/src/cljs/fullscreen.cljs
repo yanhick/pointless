@@ -1,4 +1,4 @@
-(ns pointless.fullscreen)
+(ns fullscreen)
 
 (defn enter [el]
   (if-not (nil? el.mozRequestFullScreen)

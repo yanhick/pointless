@@ -1,4 +1,4 @@
-(ns pointless.api)
+(ns api)
 
 (defn load [id cb]
   (.log js/console "loading JSON")

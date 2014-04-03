@@ -1,6 +1,6 @@
-(ns pointless.pagination)
+(ns pagination)
 
-(defn next
+(defn next-slide
   [get-index next?]
   (if (next? get-index)
     (+ (get-index) 1)
@@ -10,7 +10,7 @@
   [get-index slides]
   (< (get-index) (count slides)))
 
-(defn previous
+(defn previous-slide
   [get-index]
   (if-not (= (get-index) 0)
     (- (get-index) 1)

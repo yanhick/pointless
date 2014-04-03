@@ -1,8 +1,14 @@
-(ns pointless.ui)
+(ns ui)
 
-(defn refresh [slide template progress]
-  (update-style template.css)
-  (render-slide slide template.html template.fields))
+(defn- render-template [slide template fields]
+  (reduce
+    (fn [template field]
+      (clojure.string/replace
+        template
+        (str "{{" field.name "}}")
+        (get slide field.name)))
+    template
+    fields))
 
 (defn- render-slide [slide html fields]
   (let [div (.createElement js/document "div")
@@ -11,16 +17,14 @@
     (set! (.-innerHTML container) "")
     (.appendChild container div)))
 
-(defn- render-template [slide template fields]
-  (reduce
-    (fn [template field]
-      (clojure.string/replace 
-        template 
-        (str "{{" field.name "}}")
-        (get slide field.name)))
-    template
-    fields))
-
 (defn- update-style [css]
   (let [style (.getElementById js/document "slides-css")]
     (set! (.-textContent style) css)))
+
+(defn refresh [presentation index]
+  (update-style (get (get presentation "template") "css"))
+  (render-slide 
+    (get (get presentation "slides") index)
+    (get (get presentation "template") "html")
+    (get (get presentation "template") "fields")))
+
