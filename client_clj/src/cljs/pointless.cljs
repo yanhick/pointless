@@ -18,7 +18,6 @@
 
 (defn update-index
   [new-index]
-  (js/console.log (str "index : " new-index))
   (swap! index (fn [] new-index))
   (ui.refresh @presentation-data (get-index)))
 
@@ -36,14 +35,18 @@
 
 (defn update-pres
   [new-presentation-data]
-  (swap! presentation-data (fn [] new-presentation-data))
+  (swap! presentation-data 
+         (fn [] 
+           (merge 
+             @presentation-data
+             new-presentation-data)))
   (ui.refresh @presentation-data (get-index)))
 
 (defn init
   [err data]
   (update-pres (js->clj (js/JSON.parse data)))
   (code_mirror_wrapper.init
-    presentation.update-template
+    update-pres
     (get-presentation))
   (listen-user))
 
