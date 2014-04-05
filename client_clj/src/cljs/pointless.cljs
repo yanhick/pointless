@@ -28,10 +28,11 @@
              get-index
              (partial pagination.next?
                       get-index
-                      (get (get-presentation) "slides"))))
+                      #(get (get-presentation) "slides"))))
     (comp update-index
           (partial pagination.previous-slide
-             get-index))))
+             get-index))
+    ui.toggle))
 
 (defn update-pres
   [new-presentation-data]
@@ -40,6 +41,7 @@
            (merge 
              @presentation-data
              new-presentation-data)))
+  (js/console.log (get @presentation-data "slides"))
   (ui.refresh @presentation-data (get-index)))
 
 (defn init

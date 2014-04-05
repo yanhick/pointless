@@ -28,3 +28,17 @@
     (get (get presentation "slides") index)
     (get (get presentation "template") "html")))
 
+(defn toggle []
+  (let [template-container (.querySelector js/document ".template")
+        value (if (= (-> template-container
+                         .-style
+                         .-visibility)
+                     "hidden")
+                "visible"
+                "hidden")]
+   (set! (-> template-container
+             .-style
+             .-visibility 
+            )
+         value)))
+

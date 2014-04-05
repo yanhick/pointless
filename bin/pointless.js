@@ -23693,6 +23693,11 @@ ui.refresh = function refresh(presentation__$1, index) {
   ui.update_style.call(null, cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "template"), "css"));
   return ui.render_slide.call(null, cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "slides"), index), cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "template"), "html"));
 };
+ui.toggle = function toggle() {
+  var template_container = document.querySelector(".template");
+  var value = cljs.core._EQ_.call(null, template_container.style.visibility, "hidden") ? "visible" : "hidden";
+  return template_container.style.visibility = value;
+};
 goog.provide("code_mirror_wrapper");
 goog.require("cljs.core");
 code_mirror_wrapper.qs = function qs(selector) {
@@ -23755,8 +23760,8 @@ pagination.next_slide = function next_slide(get_index, next_QMARK_) {
     return get_index.call(null);
   }
 };
-pagination.next_QMARK_ = function next_QMARK_(get_index, slides) {
-  return get_index.call(null) < cljs.core.count.call(null, slides) - 1;
+pagination.next_QMARK_ = function next_QMARK_(get_index, get_slides) {
+  return get_index.call(null) < cljs.core.count.call(null, get_slides.call(null)) - 1;
 };
 pagination.previous_slide = function previous_slide(get_index) {
   if (!cljs.core._EQ_.call(null, get_index.call(null), 0)) {
@@ -23780,24 +23785,28 @@ fullscreen.enter = function enter(el) {
 };
 goog.provide("user_interaction");
 goog.require("cljs.core");
-user_interaction.on_key_up = function on_key_up(on_left, on_right, e) {
-  var G__4858 = e.keyCode;
-  if (cljs.core._EQ_.call(null, 39, G__4858)) {
-    return on_right.call(null);
+user_interaction.on_key_up = function on_key_up(on_left, on_right, on_esc, e) {
+  var G__4862 = e.keyCode;
+  if (cljs.core._EQ_.call(null, 27, G__4862)) {
+    return on_esc.call(null);
   } else {
-    if (cljs.core._EQ_.call(null, 37, G__4858)) {
-      return on_left.call(null);
+    if (cljs.core._EQ_.call(null, 39, G__4862)) {
+      return on_right.call(null);
     } else {
-      if (new cljs.core.Keyword(null, "else", "else", 1017020587)) {
-        return null;
+      if (cljs.core._EQ_.call(null, 37, G__4862)) {
+        return on_left.call(null);
       } else {
-        return null;
+        if (new cljs.core.Keyword(null, "else", "else", 1017020587)) {
+          return null;
+        } else {
+          return null;
+        }
       }
     }
   }
 };
-user_interaction.listen_keyboard = function listen_keyboard(on_right, on_left) {
-  return document.addEventListener("keyup", cljs.core.partial.call(null, user_interaction.on_key_up, on_left, on_right));
+user_interaction.listen_keyboard = function listen_keyboard(on_right, on_left, on_esc) {
+  return document.addEventListener("keyup", cljs.core.partial.call(null, user_interaction.on_key_up, on_left, on_right, on_esc));
 };
 goog.provide("pointless");
 goog.require("cljs.core");
@@ -23823,12 +23832,15 @@ pointless.update_index = function update_index(new_index) {
   return ui.refresh.call(null, cljs.core.deref.call(null, pointless.presentation_data), pointless.get_index.call(null));
 };
 pointless.listen_user = function listen_user() {
-  return user_interaction.listen_keyboard.call(null, cljs.core.comp.call(null, pointless.update_index, cljs.core.partial.call(null, pagination.next_slide, pointless.get_index, cljs.core.partial.call(null, pagination.next_QMARK_, pointless.get_index, cljs.core.get.call(null, pointless.get_presentation.call(null), "slides")))), cljs.core.comp.call(null, pointless.update_index, cljs.core.partial.call(null, pagination.previous_slide, pointless.get_index)));
+  return user_interaction.listen_keyboard.call(null, cljs.core.comp.call(null, pointless.update_index, cljs.core.partial.call(null, pagination.next_slide, pointless.get_index, cljs.core.partial.call(null, pagination.next_QMARK_, pointless.get_index, function() {
+    return cljs.core.get.call(null, pointless.get_presentation.call(null), "slides");
+  }))), cljs.core.comp.call(null, pointless.update_index, cljs.core.partial.call(null, pagination.previous_slide, pointless.get_index)), ui.toggle);
 };
 pointless.update_pres = function update_pres(new_presentation_data) {
   cljs.core.swap_BANG_.call(null, pointless.presentation_data, function() {
     return cljs.core.merge.call(null, cljs.core.deref.call(null, pointless.presentation_data), new_presentation_data);
   });
+  console.log(cljs.core.get.call(null, cljs.core.deref.call(null, pointless.presentation_data), "slides"));
   return ui.refresh.call(null, cljs.core.deref.call(null, pointless.presentation_data), pointless.get_index.call(null));
 };
 pointless.init = function init(err, data) {

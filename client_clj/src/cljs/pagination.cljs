@@ -7,8 +7,8 @@
     (get-index)))
 
 (defn next?
-  [get-index slides]
-  (< (get-index) (dec (count slides))))
+  [get-index get-slides]
+  (< (get-index) (dec (count (get-slides)))))
 
 (defn previous-slide
   [get-index]

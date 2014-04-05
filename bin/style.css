@@ -45,7 +45,28 @@
 
 .html, .css, .json {
     box-sizing: margin-box;
-    float: left;
+    position: fixed;
     width: 50%;
-    height: 300px;
+}
+
+.json {
+    left: 0;
+    top: 0;
+    height: 100%;
+}
+
+.html {
+    right: 0;
+    top: 0;
+    height: 50%;
+}
+
+.css {
+    right: 0;
+    bottom: 0;
+    height: 50%;
+}
+
+.CodeMirror {
+    height: auto;
 }
