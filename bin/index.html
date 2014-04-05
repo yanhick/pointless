@@ -7,31 +7,21 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/codemirror/3.22.0/mode/javascript/javascript.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/codemirror/3.22.0/mode/css/css.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/codemirror/3.22.0/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.js"></script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <link href="http://cdnjs.cloudflare.com/ajax/libs/codemirror/3.22.0/codemirror.css" type="text/css" rel="stylesheet">
         <link href="style.css" type="text/css" rel="stylesheet">
         <link href="slide.css" type="text/css" rel="stylesheet">
+        <style id="slides-css"></style>
     </head>
     <body>
         <div class="slide-container"></div>
-        <div class="progress"></div>
-        <div class="buttons">
-            <button class="delete">delete</button>
-            <button class="insert">insert</button>
-            <button class="fullscreen">fullscreen</button>
-            <input type="number" />
-            <button class="swap">swap</button>
-            <button class="copy">copy</button>
-            <button class="goto">go-to</button>
-            <button class="save">save</button>
-        </div>
-        <form class="content">
-        </form>
         <form class="template">
             <div class="html"></div>
             <div class="css"></div>
+            <div class="json"></div>
         </form>
         <script src="pointless.js"></script>
     </body>

@@ -5,12 +5,9 @@
 (defn- render-template [slide template]
   (reduce
     (fn [template field]
-      (js/console.log (get field 0))
-      (js/console.log (get field 1))
-      (clojure.string/replace
-        template
-        (str "{{" (get field 0) "}}")
-        (get field 0)))
+      (js/Mustache.render template 
+        (clj->js 
+          {(get field 0) (get field 1)})))
     template
     slide))
 

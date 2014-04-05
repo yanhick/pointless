@@ -1,21 +1,7 @@
 {
     "template" : {
         "html" : "<div class=\"slide\"><div class=\"text-container\">{{text}}<div class=\"image-container\"><img src=\"{{image}}\" /></div></div></div>",
-        "css" : ".slide { background:black; color:white;}",
-        "fields" : [
-            {
-                "name" : "text",
-                "type" : "textarea"
-            },
-            {
-                "name" : "image",
-                "type" : "url"
-            },
-            {
-                "name" : "text2",
-                "type" : "text"
-            }
-        ]
+        "css" : ".slide { background:black; color:white;}"
     },
     "slides" : [{
             "text" : "test text",
