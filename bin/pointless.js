@@ -23707,7 +23707,7 @@ code_mirror_wrapper.on_editor_change = function on_editor_change(on_change, get_
 code_mirror_wrapper.init = function init(on_change, presentation__$1) {
   var html_editor = code_mirror_wrapper.create_editor.call(null, ".template .html", "htmlmixed", cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "template"), "html"));
   var css_editor = code_mirror_wrapper.create_editor.call(null, ".template .css", "css", cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "template"), "css"));
-  var json_editor = code_mirror_wrapper.create_editor.call(null, ".template .json", "json", JSON.stringify(cljs.core.clj__GT_js.call(null, cljs.core.get.call(null, presentation__$1, "slides")), null, 2));
+  var json_editor = code_mirror_wrapper.create_editor.call(null, ".template .json", "javascript", JSON.stringify(cljs.core.clj__GT_js.call(null, cljs.core.get.call(null, presentation__$1, "slides")), null, 2));
   var on_data_change = cljs.core.partial.call(null, code_mirror_wrapper.on_editor_change, on_change, function(html_editor, css_editor, json_editor) {
     return function() {
       return html_editor.getValue();

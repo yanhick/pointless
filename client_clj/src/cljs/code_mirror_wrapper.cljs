@@ -33,7 +33,7 @@
         json-editor
         (create-editor
           ".template .json"
-          "json"
+          "javascript"
           (js/JSON.stringify (clj->js (get presentation "slides")) nil 2))
         on-data-change (partial on-editor-change
                                 on-change
