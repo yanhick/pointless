@@ -43,7 +43,7 @@
     z-index: 2;
 }
 
-.html, .css {
+.html, .css, .json {
     box-sizing: margin-box;
     float: left;
     width: 50%;

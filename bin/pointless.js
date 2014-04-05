@@ -23701,23 +23701,29 @@ code_mirror_wrapper.qs = function qs(selector) {
 code_mirror_wrapper.create_editor = function create_editor(selector, mode, value) {
   return CodeMirror(code_mirror_wrapper.qs.call(null, selector), cljs.core.clj__GT_js.call(null, new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "mode", "mode", 1017261333), mode, new cljs.core.Keyword(null, "value", "value", 1125876963), value, new cljs.core.Keyword(null, "lineNumbers", "lineNumbers", 3695398696), true], null)));
 };
-code_mirror_wrapper.on_editor_change = function on_editor_change(on_change, get_html, get_css) {
-  return on_change.call(null, new cljs.core.PersistentArrayMap(null, 1, ["template", new cljs.core.PersistentArrayMap(null, 2, ["html", get_html.call(null), "css", get_css.call(null)], null)], null));
+code_mirror_wrapper.on_editor_change = function on_editor_change(on_change, get_html, get_css, get_json) {
+  return on_change.call(null, new cljs.core.PersistentArrayMap(null, 2, ["template", new cljs.core.PersistentArrayMap(null, 2, ["html", get_html.call(null), "css", get_css.call(null)], null), "slides", cljs.core.js__GT_clj.call(null, JSON.parse(get_json.call(null)))], null));
 };
 code_mirror_wrapper.init = function init(on_change, presentation__$1) {
   var html_editor = code_mirror_wrapper.create_editor.call(null, ".template .html", "htmlmixed", cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "template"), "html"));
   var css_editor = code_mirror_wrapper.create_editor.call(null, ".template .css", "css", cljs.core.get.call(null, cljs.core.get.call(null, presentation__$1, "template"), "css"));
-  var on_data_change = cljs.core.partial.call(null, code_mirror_wrapper.on_editor_change, on_change, function(html_editor, css_editor) {
+  var json_editor = code_mirror_wrapper.create_editor.call(null, ".template .json", "json", JSON.stringify(cljs.core.clj__GT_js.call(null, cljs.core.get.call(null, presentation__$1, "slides")), null, 2));
+  var on_data_change = cljs.core.partial.call(null, code_mirror_wrapper.on_editor_change, on_change, function(html_editor, css_editor, json_editor) {
     return function() {
       return html_editor.getValue();
     };
-  }(html_editor, css_editor), function(html_editor, css_editor) {
+  }(html_editor, css_editor, json_editor), function(html_editor, css_editor, json_editor) {
     return function() {
       return css_editor.getValue();
     };
-  }(html_editor, css_editor));
+  }(html_editor, css_editor, json_editor), function(html_editor, css_editor, json_editor) {
+    return function() {
+      return json_editor.getValue();
+    };
+  }(html_editor, css_editor, json_editor));
   html_editor.on("change", on_data_change);
-  return css_editor.on("change", on_data_change);
+  css_editor.on("change", on_data_change);
+  return json_editor.on("change", on_data_change);
 };
 goog.provide("api");
 goog.require("cljs.core");

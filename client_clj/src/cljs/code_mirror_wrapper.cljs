@@ -14,9 +14,10 @@
         :lineNumbers true})))
 
 (defn- on-editor-change 
-  [on-change get-html get-css]
+  [on-change get-html get-css get-json]
   (on-change
-    {"template" {"html" (get-html) "css" (get-css)}}))
+    {"template" {"html" (get-html) "css" (get-css) }
+     "slides" (js->clj (js/JSON.parse (get-json)))}))
 
 (defn init [on-change presentation]
   (let [html-editor
@@ -29,10 +30,17 @@
           ".template .css"
           "css"
           (get (get presentation "template") "css"))
+        json-editor
+        (create-editor
+          ".template .json"
+          "json"
+          (js/JSON.stringify (clj->js (get presentation "slides")) nil 2))
         on-data-change (partial on-editor-change
                                 on-change
                                 #(.getValue html-editor)
-                                #(.getValue css-editor))]
+                                #(.getValue css-editor)
+                                #(.getValue json-editor))]
     (.on html-editor "change" on-data-change)
-    (.on css-editor "change" on-data-change)))
+    (.on css-editor "change" on-data-change)
+    (.on json-editor "change" on-data-change)))
 
